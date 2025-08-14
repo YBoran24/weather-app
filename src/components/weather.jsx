@@ -68,12 +68,17 @@ const Weather = () => {
         icon: icon
       });
 
+      // 5 günlük tahmin, gün isimlerini tam Türkçe gösterecek şekilde
       const daily = forecastData.list.filter(item => item.dt_txt.includes("12:00:00")).slice(0, 5);
-      setForecast(daily.map(day => ({
-        date: new Date(day.dt_txt).toLocaleDateString('tr-TR', { weekday: 'short' }),
-        temp: Math.floor(day.main.temp),
-        icon: allIcons[day.weather[0].icon] || clear_icon
-      })));
+      const dayNamesTR = ["Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi"];
+      setForecast(daily.map(day => {
+        const date = new Date(day.dt_txt);
+        return {
+          date: dayNamesTR[date.getDay()],
+          temp: Math.floor(day.main.temp),
+          icon: allIcons[day.weather[0].icon] || clear_icon
+        };
+      }));
 
     } catch (error) {
       console.error("API hatası:", error);
@@ -149,16 +154,16 @@ const Weather = () => {
         )}
       </div>
 
-      {/* Tahmin Kutucukları */}
       <div className="forecast-grid">
-        {forecast.map((day, index) => (
-          <div key={index} className="forecast-card">
-            <p>{day.date}</p>
-            <img src={day.icon} alt="icon" />
-            <p>{day.temp}°C</p>
-          </div>
-        ))}
-      </div>
+  {forecast.map((day, index) => (
+    <div key={index} className="forecast-card">
+      <p className="forecast-day">{day.date}</p>
+      <img src={day.icon} alt="icon" />
+      <p className="temperature">{day.temp}°C</p>
+    </div>
+  ))}
+</div>
+
     </div>
   );
 };
