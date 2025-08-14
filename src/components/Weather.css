@@ -1,0 +1,162 @@
+    .weather-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    }
+
+    /* Ana hava durumu kutusu (eski mor ton) */
+    .weather-main {
+    background-image: linear-gradient(45deg, #2f4680, #500ae4);
+    color: white;
+    padding: 40px;
+    border-radius: 10px;
+    text-align: center;
+    width: 300px;
+    }
+
+    .weather-icon {
+    width: 100px;
+    margin: 10px auto;
+    }
+
+    .temperature {
+    font-size: 40px;
+    font-weight: bold;
+    }
+
+    .location {
+    font-size: 22px;
+    font-weight: 500;
+    }
+
+    .feels-like {
+    font-size: 14px;
+    margin-top: 5px;
+    }
+
+    .weather-data {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 15px;
+    }
+
+    .col img {
+    width: 30px;
+    }
+
+    .add-favorite {
+    margin: 10px 0;
+    padding: 5px 10px;
+    background: #d9a7ff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    }
+
+    /* Favoriler kutusu */
+  .favorites {
+    background: rgba(80, 10, 228, 0.8);
+    padding: 10px;
+    border-radius: 10px;
+    color: white;
+    min-width: 150px;
+    min-height: 50px;   /* Kutucuk çok küçük olmasın */
+    max-height: 300px;  /* Kutucuk çok uzun olmasın */
+    overflow-y: auto;   /* İçerik taşarsa scroll çıkar */
+}
+
+
+    .favorite-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 5px;
+    }
+
+    .favorite-item button {
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: white;
+    font-size: 14px;
+    padding: 3px 5px;
+    }
+
+    .remove-btn {
+    color: red;
+    font-size: 12px;
+    padding: 0;
+    margin-left: 5px;
+    }
+
+    /* Tahmin kutucukları - kompakt ve serpiştirilmiş */
+    .forecast-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+    max-width: 400px;
+    }
+
+    .forecast-card {
+    background: #a855f7;
+    color: white;
+    padding: 5px 8px;
+    border-radius: 12px;
+    text-align: center;
+    width: 70px;
+    height: 100px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    transition: transform 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    }
+
+    .forecast-card img {
+    width: 35px;
+    margin: 3px 0;
+    }
+
+    .forecast-card p {
+    margin: 2px 0;
+    font-size: 14px;
+    }
+
+    /* Arama kısmı */
+    .search-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    }
+
+    .search-bar input {
+    height: 40px;
+    border: none;
+    outline: none;
+    border-radius: 30px;
+    padding-left: 15px;
+    color: black;
+    background: #ebfffc;
+    font-size: 16px;
+    }
+
+    .search-bar img {
+    width: 40px;
+    padding: 10px;
+    border-radius: 50%;
+    background: #ebfffc;
+    cursor: pointer;
+    }
+
+    /* Mobil uyum */
+    @media (max-width: 768px) {
+    .weather-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    }
