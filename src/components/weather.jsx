@@ -10,6 +10,28 @@ import snow_icon from '../assets/snow.png';
 import wind_icon from '../assets/wind.png';
 import humidity_icon from '../assets/humidity.png';
 
+import { Line } from 'react-chartjs-2';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+} from 'chart.js';
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
+
 const Weather = () => {
   const inputRef = useRef();
   const [weatherData, setWeatherData] = useState(null);
@@ -68,17 +90,18 @@ const Weather = () => {
         icon: icon
       });
 
-      // 5 günlük tahmin, gün isimlerini tam Türkçe gösterecek şekilde
       const daily = forecastData.list.filter(item => item.dt_txt.includes("12:00:00")).slice(0, 5);
       const dayNamesTR = ["Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi"];
-      setForecast(daily.map(day => {
+      const dailyForecast = daily.map(day => {
         const date = new Date(day.dt_txt);
         return {
           date: dayNamesTR[date.getDay()],
           temp: Math.floor(day.main.temp),
           icon: allIcons[day.weather[0].icon] || clear_icon
         };
-      }));
+      });
+
+      setForecast(dailyForecast);
 
     } catch (error) {
       console.error("API hatası:", error);
@@ -101,6 +124,35 @@ const Weather = () => {
     const updated = favorites.filter(fav => fav !== city);
     setFavorites(updated);
     localStorage.setItem("favorites", JSON.stringify(updated));
+  };
+
+  // Günler arası fark hesaplama
+  const forecastWithDiff = forecast.map((day, index) => {
+    if (index === 0) return { ...day, diff: 0 };
+    return { ...day, diff: day.temp - forecast[index - 1].temp };
+  });
+
+  // Grafik verisi
+  const chartData = {
+    labels: forecastWithDiff.map(day => day.date),
+    datasets: [
+      {
+        label: "Sıcaklık (°C)",
+        data: forecastWithDiff.map(day => day.temp),
+        borderColor: "rgba(255, 99, 132, 1)",
+        backgroundColor: "rgba(255, 99, 132, 0.2)",
+        tension: 0.4,
+        fill: true
+      }
+    ]
+  };
+
+  const chartOptions = {
+    responsive: true,
+    plugins: {
+      legend: { display: true, position: 'top' },
+      title: { display: true, text: '5 Günlük Sıcaklık Grafiği' }
+    }
   };
 
   return (
@@ -154,15 +206,21 @@ const Weather = () => {
         )}
       </div>
 
+      {/* 5 Günlük Tahmin */}
       <div className="forecast-grid">
-  {forecast.map((day, index) => (
-    <div key={index} className="forecast-card">
-      <p className="forecast-day">{day.date}</p>
-      <img src={day.icon} alt="icon" />
-      <p className="temperature">{day.temp}°C</p>
-    </div>
-  ))}
-</div>
+        {forecast.map((day, index) => (
+          <div key={index} className="forecast-card">
+            <p className="forecast-day">{day.date}</p>
+            <img src={day.icon} alt="icon" />
+            <p className="temperature">{day.temp}°C</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Grafik tahminlerin altında */}
+      <div className="temp-chart-container">
+        <Line data={chartData} options={chartOptions} />
+      </div>
 
     </div>
   );

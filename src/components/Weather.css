@@ -2,30 +2,9 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 20px;
-   
     background: linear-gradient(to right, #00FFFF, #120a8f);
 }
 
-
-.weather-main {
-
-    color: white;
-    padding: 40px;
-    border-radius: 10px;
-    text-align: center;
-    width: 300px;
-    
-    
-}
-
-.weather-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-}
-
-/* Ana hava durumu kutusu */
 .weather-main {
     background-image: linear-gradient(45deg, #2f4680, #500ae4);
     color: white;
@@ -33,6 +12,13 @@ body {
     border-radius: 10px;
     text-align: center;
     width: 300px;
+}
+
+.weather-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
 }
 
 .weather-icon {
@@ -111,13 +97,12 @@ body {
 
 .forecast-grid {
     display: flex;
-    flex-wrap: nowrap;   /* Kutucukları tek satırda tutar */
+    flex-wrap: nowrap;   
     gap: 15px;
     justify-content: center;
-    overflow-x: auto;    /* Ekran dar ise yatay scroll çıkar */
+    overflow-x: auto;    
     max-width: 100%;
 }
-
 
 .forecast-card {
     background: #1a0aa4;
@@ -149,7 +134,7 @@ body {
     font-size: 16px;
 }
 
-/* Arama kısmı */
+
 .search-bar {
     display: flex;
     justify-content: center;
@@ -177,3 +162,23 @@ body {
     cursor: pointer;
 }
 
+
+.temp-chart-container {
+    background: rgba(0, 0, 50, 0.6);
+    padding: 15px;
+    border-radius: 10px;
+    color: white;
+}
+.forecast-grid {
+  display: flex;
+  justify-content: space-between; 
+  flex-wrap: wrap; 
+  margin-bottom: 20px; /
+}
+
+.temp-chart-container {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  transform: translate(265px, -300px); /* X: sağa, Y: yukarı */
+}
