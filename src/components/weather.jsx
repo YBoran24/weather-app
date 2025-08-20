@@ -164,7 +164,7 @@ const Weather = () => {
         {favorites.length === 0 && <p>Favori şehir ekleyin!</p>}
         {favorites.map((city, index) => (
           <div key={index} className="favorite-item">
-            <button onClick={() => search(city)}>{city}</button>
+            <button onClick={()=> search(city)}>{city}</button>
             <button className="remove-btn" onClick={() => removeFavorite(city)}>❌</button>
           </div>
         ))}
