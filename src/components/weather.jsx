@@ -41,6 +41,15 @@ const Weather = () => {
     return saved ? JSON.parse(saved) : [];
   });
 
+  // API anahtarını kontrol et
+  const apiKey = import.meta.env.VITE_APP_ID;
+  
+  useEffect(() => {
+    if (!apiKey) {
+      console.error("API anahtarı bulunamadı! Lütfen .env dosyasında VITE_APP_ID değişkenini ayarlayın.");
+    }
+  }, [apiKey]);
+
   const allIcons = {
     "01d": clear_icon,
     "01n": clear_icon,
@@ -63,9 +72,16 @@ const Weather = () => {
       alert("Lütfen geçerli bir şehir ismi giriniz");
       return;
     }
+    
+    // API anahtarı kontrolü
+    if (!apiKey) {
+      alert("API anahtarı bulunamadı! Lütfen sistem yöneticinizle iletişime geçin.");
+      return;
+    }
+    
     try {
-      const currentUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${import.meta.env.VITE_APP_ID}&lang=tr`;
-      const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${import.meta.env.VITE_APP_ID}&lang=tr`;
+      const currentUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}&lang=tr`;
+      const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${apiKey}&lang=tr`;
 
       const [currentRes, forecastRes] = await Promise.all([
         fetch(currentUrl),
@@ -75,7 +91,9 @@ const Weather = () => {
       const currentData = await currentRes.json();
       const forecastData = await forecastRes.json();
 
+      // API hata kontrolü
       if (!currentRes.ok || currentData.cod !== 200) {
+        console.error("API Hatası:", currentData);
         alert(currentData.message || "Şehir bulunamadı!");
         return;
       }
@@ -106,6 +124,7 @@ const Weather = () => {
 
     } catch (error) {
       console.error("API hatası:", error);
+      alert("Hava durumu bilgileri alınırken bir hata oluştu. Lütfen tekrar deneyin.");
     }
   };
 
