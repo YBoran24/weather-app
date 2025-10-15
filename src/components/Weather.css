@@ -164,21 +164,59 @@ body {
 
 
 .temp-chart-container {
-    background: rgba(0, 0, 50, 0.6);
-    padding: 15px;
-    border-radius: 10px;
-    color: white;
-}
-.forecast-grid {
-  display: flex;
-  justify-content: space-between; 
-  flex-wrap: wrap; 
-  margin-bottom: 20px; /
-}
-
-.temp-chart-container {
   width: 100%;
   max-width: 600px;
-  margin: 0 auto;
-  transform: translate(265px, -300px); /* X: sağa, Y: yukarı */
+  margin: 20px auto;
+  background: rgba(0, 0, 50, 0.6);
+  padding: 15px;
+  border-radius: 10px;
+  color: white;
+}
+
+/* Küçük ekranlar için (mobil cihazlar) */
+@media screen and (max-width: 768px) {
+  .temp-chart-container {
+    padding: 10px;
+    margin: 15px auto;
+  }
+  
+  .weather-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .favorites {
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  .weather-main {
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  .forecast-grid {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .forecast-card {
+    width: calc(50% - 10px);
+    margin-bottom: 10px;
+  }
+}
+
+/* Çok küçük ekranlar için (örneğin iPhone 5/SE) */
+@media screen and (max-width: 350px) {
+  .forecast-card {
+    width: 100%;
+  }
+  
+  body {
+    padding: 10px;
+  }
+  
+  .weather-main {
+    padding: 20px;
+  }
 }

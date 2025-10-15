@@ -101,6 +101,7 @@ const Weather = () => {
         };
       });
 
+      console.log("Günlük tahmin verileri:", dailyForecast);
       setForecast(dailyForecast);
 
     } catch (error) {
@@ -127,10 +128,12 @@ const Weather = () => {
   };
 
   // Günler arası fark hesaplama
-  const forecastWithDiff = forecast.map((day, index) => {
-    if (index === 0) return { ...day, diff: 0 };
-    return { ...day, diff: day.temp - forecast[index - 1].temp };
-  });
+  const forecastWithDiff = forecast && forecast.length > 0 
+    ? forecast.map((day, index) => {
+        if (index === 0) return { ...day, diff: 0 };
+        return { ...day, diff: day.temp - (forecast[index - 1]?.temp || 0) };
+      })
+    : [];
 
   // Grafik verisi
   const chartData = {
@@ -157,18 +160,6 @@ const Weather = () => {
 
   return (
     <div className="weather-container">
-
-      {/* Favoriler */}
-      <div className="favorites">
-        <h3>Kaydedilenler</h3>
-        {favorites.length === 0 && <p>Favori şehir ekleyin!</p>}
-        {favorites.map((city, index) => (
-          <div key={index} className="favorite-item">
-            <button onClick={()=> search(city)}>{city}</button>
-            <button className="remove-btn" onClick={() => removeFavorite(city)}>❌</button>
-          </div>
-        ))}
-      </div>
 
       {/* Ana Hava Durumu Kutusu */}
       <div className="weather-main">
@@ -206,6 +197,18 @@ const Weather = () => {
         )}
       </div>
 
+      {/* Favoriler */}
+      <div className="favorites">
+        <h3>Kaydedilenler</h3>
+        {favorites.length === 0 && <p>Favori şehir ekleyin!</p>}
+        {favorites.map((city, index) => (
+          <div key={index} className="favorite-item">
+            <button onClick={()=> search(city)}>{city}</button>
+            <button className="remove-btn" onClick={() => removeFavorite(city)}>❌</button>
+          </div>
+        ))}
+      </div>
+
       {/* 5 Günlük Tahmin */}
       <div className="forecast-grid">
         {forecast.map((day, index) => (
@@ -219,7 +222,9 @@ const Weather = () => {
 
       {/* Grafik tahminlerin altında */}
       <div className="temp-chart-container">
-        <Line data={chartData} options={chartOptions} />
+        {forecast && forecast.length > 0 && (
+          <Line data={chartData} options={chartOptions} />
+        )}
       </div>
 
     </div>
